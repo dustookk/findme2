@@ -3,14 +3,9 @@ package com.gyh.findme2.persist;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
 
 public class DataPref {
-	private static final String CONFIG_NAME = "config";
-	
-	
-	
-	
-	
 	private static DataPref mDataPref;
 	private Context mContext;
 	private SharedPreferences mPref;
@@ -29,7 +24,7 @@ public class DataPref {
     
     private SharedPreferences getSharedPreferences() {
         if (null == mPref) {
-            mPref = mContext.getSharedPreferences(CONFIG_NAME, Context.MODE_PRIVATE);
+            mPref = PreferenceManager.getDefaultSharedPreferences(mContext);
         }
         return mPref;
     }
