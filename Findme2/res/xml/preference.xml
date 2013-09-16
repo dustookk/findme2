@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <Preference android:title="@string/trusts" />
+    <Preference android:title="@string/history" />
+    <Preference android:title="@string/donate" />
+    <Preference android:title="@string/about" />
+</PreferenceScreen>

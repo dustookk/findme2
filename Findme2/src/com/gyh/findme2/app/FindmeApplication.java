@@ -9,7 +9,7 @@ public class FindmeApplication extends Application {
 	@Override
 	public void onCreate() {
 		try {
-            Thread.setDefaultUncaughtExceptionHandler(new FindmeUncaughtExceptionHandler());
+            //Thread.setDefaultUncaughtExceptionHandler(new FindmeUncaughtExceptionHandler());
         } catch (Exception e) {
             LogUtil.e(e);
         }

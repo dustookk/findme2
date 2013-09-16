@@ -1,6 +1,6 @@
 package com.gyh.findme2.ui;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -21,23 +21,22 @@ public class MainActivity extends SherlockActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_activity_main);
-		getSupportActionBar().setTitle("");
 		setupSlidingMenu(this);
+		getSupportActionBar().setTitle(null);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuItem sttingItem = menu.add("");
+		MenuItem sttingItem = menu.add("open menu");
 		sttingItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		sttingItem.setIcon(R.drawable.abs__ic_menu_moreoverflow_holo_light);
 		return super.onCreateOptionsMenu(menu);
 	}
-
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		slidingMenu.toggle();
 		return true;
-
 	}
 
 	@Override
@@ -70,16 +69,16 @@ public class MainActivity extends SherlockActivity {
 		}
 	}
 
-	private void setupSlidingMenu(Context context) {
-		slidingMenu = new SlidingMenu(context);
+	private void setupSlidingMenu(Activity activity) {
+		SlidingViewHolder mSlidingViewHolder = new SlidingViewHolder(activity);
+		slidingMenu = new SlidingMenu(activity);
 		slidingMenu.setMode(SlidingMenu.RIGHT);
 		slidingMenu.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
 		slidingMenu.setShadowDrawable(R.drawable.shadow);
-		slidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+		slidingMenu.setBehindWidthRes(R.dimen.slidingmenu_offset);
 		slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-		slidingMenu.setTouchModeBehind(SlidingMenu.TOUCHMODE_FULLSCREEN);
+		slidingMenu.setMenu(mSlidingViewHolder.getView());
 		slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-		slidingMenu.setMenu(R.layout.layout_sliding);
 	}
 
 }

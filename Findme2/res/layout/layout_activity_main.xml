@@ -1,0 +1,12 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/tv_helloworld"
+        android:layout_margin="20dip"
+        android:hint="@string/input_a_number_or_a_name"
+        android:layout_centerVertical="true"
+        android:imeOptions="actionSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

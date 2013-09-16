@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Findme2</string>
-    <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-
+    <string name="confirm_exit">Press again to exit</string>
+    <string name="service">Service</string>
+    <string name="exit">Exit</string>
+    <string name="input_a_number_or_a_name">Input a number or a name</string>
+    <string name="get_him">Get him!</string>
+    
+    <!-- Settings -->
+    <string name="setting">Settings</string>
+    <string name="trusts">Trusts</string>
+    <string name="history">History</string>
+    <string name="donate">Donate</string>
+    <string name="about">About</string>
 </resources>
