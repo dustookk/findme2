@@ -1,10 +1,17 @@
 <resources>
-
-    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="text_size_normal">12sp</dimen>
+    <!-- slidingmenu -->
     <dimen name="slidingmenu_offset">180dp</dimen>
     <dimen name="slidingmenu_shadow_width">15dp</dimen>
+    <!-- preference layout -->
     <dimen name="preference_item_margin">20dp</dimen>
     <dimen name="preference_item_height">60dp</dimen>
     <dimen name="preference_item_text_size">17sp</dimen>
+    <!-- main layout -->
+    <dimen name="main_margin">20dp</dimen>
+    <dimen name="main_btn_padding">5dp</dimen>
+    <dimen name="main_input_height">40dp</dimen>
+    <dimen name="main_input_margin_left">10dp</dimen>
+    <dimen name="main_input_padding_dropdown">5dp</dimen>
 
 </resources>

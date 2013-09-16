@@ -85,7 +85,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/preference_item_margin"
             android:layout_marginRight="@dimen/preference_item_margin"
-            android:background="@android:color/darker_gray" />
+            android:background="@color/darker_gray" />
 
     </RelativeLayout>
 
