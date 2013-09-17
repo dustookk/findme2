@@ -1,8 +1,8 @@
 package com.gyh.findme2.ui;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -16,16 +16,17 @@ import com.gyh.findme2.util.ToastUtil;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenListener;
 
-@SuppressLint("NewApi")
 public class MainActivity extends SherlockActivity {
-
+	
+	private MainViewHolder mMainViewHolder;
 	private SlidingMenu slidingMenu;
 	private boolean confirmExit = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(new MainViewHolder(this).getView());
+		mMainViewHolder = new MainViewHolder(this);
+		setContentView(mMainViewHolder.getView());
 		setupSlidingMenu(this);
 		getSupportActionBar().setTitle(null);
 	}
@@ -92,4 +93,10 @@ public class MainActivity extends SherlockActivity {
 			}
 		});
 	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		mMainViewHolder.onActivityResult(requestCode, resultCode, data);
+	}
+	
 }
