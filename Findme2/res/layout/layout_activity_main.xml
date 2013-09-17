@@ -9,18 +9,18 @@
         android:layout_height="@dimen/main_input_height"
         android:layout_marginLeft="@dimen/main_margin"
         android:layout_marginRight="@dimen/main_margin"
-        android:focusableInTouchMode="true"
-        android:background="@drawable/shape_main_input_border" >
+        android:background="@drawable/shape_main_input_border"
+        android:focusableInTouchMode="true" >
 
         <AutoCompleteTextView
             android:id="@+id/et_main_input"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
-            android:paddingLeft="@dimen/main_input_margin_left"
             android:background="@null"
             android:hint="@string/input_a_number_or_a_name"
             android:imeOptions="actionSearch"
+            android:paddingLeft="@dimen/main_input_margin_left"
             android:singleLine="true"
             android:textSize="@dimen/text_size_normal" />
 
