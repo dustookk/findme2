@@ -1,16 +1,13 @@
 package com.gyh.findme2.util;
 
-import android.app.Activity;
+import java.util.List;
+
 import android.content.Context;
-import android.util.DisplayMetrics;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 
 public class SysUtil {
-
-	public static int getScreenWidthPix(Activity mActivity) {
-		DisplayMetrics dm = new DisplayMetrics();
-		mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-		return dm.widthPixels;
-	}
 
 	public static int dip2px(Context context, float dipValue) {
 		final float scale = context.getResources().getDisplayMetrics().density;
@@ -20,5 +17,12 @@ public class SysUtil {
 	public static int px2dip(Context context, float pxValue) {
 		final float scale = context.getResources().getDisplayMetrics().density;
 		return (int) (pxValue / scale + 0.5f);
+	}
+	
+	public static boolean isIntentAvailable(Context context, Intent intent) {
+		PackageManager packageManager = context.getPackageManager();
+		List<ResolveInfo> list = packageManager.queryIntentActivities(intent,
+				PackageManager.MATCH_DEFAULT_ONLY);
+		return list.size() > 0;
 	}
 }
