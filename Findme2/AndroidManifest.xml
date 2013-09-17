@@ -8,6 +8,8 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="18" />
 
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:name="com.gyh.findme2.app.FindmeApplication"
         android:allowBackup="true"
