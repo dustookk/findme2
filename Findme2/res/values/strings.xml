@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">Findme2</string>
     <string name="hello_world">Hello world!</string>
-    <string name="confirm_exit">Press again to exit</string>
     <string name="service">Service</string>
     <string name="exit">Exit</string>
     <string name="input_a_number_or_a_name">Input a number or a name</string>
@@ -14,4 +13,17 @@
     <string name="history">History</string>
     <string name="donate">Donate</string>
     <string name="about">About</string>
+    
+    <!-- Phone Type -->
+    <string name="type_main">Main</string>
+    <string name="type_home">Home</string>
+    <string name="type_mobile">Mobile</string>
+    <string name="type_other">Other</string>
+    <string name="type_work">work</string>
+    <string name="type_work_mobile">Work Mobile</string>
+    
+    <!-- Toasts -->
+    <string name="confirm_exit">Press again to exit</string>
+    <string name="cannot_launch_the_contact_application">Cannot launch the contact application</string>
+    
 </resources>
