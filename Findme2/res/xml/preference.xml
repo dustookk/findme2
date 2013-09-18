@@ -1,8 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <Preference
+        android:summary="@string/tracking_history"
+        android:title="@string/history" />
+    <Preference
+        android:summary="@string/people_who_can_track_you"
+        android:title="@string/trusts" />
 
-    <Preference android:title="@string/trusts" />
-    <Preference android:title="@string/history" />
+    <ListPreference
+        android:entries="@array/the_way_to_show_result"
+        android:entryValues="@array/the_way_to_show_result_value"
+        android:key="the_way_to_show_result"
+        android:title="@string/result_mode" >
+    </ListPreference>
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="notification"
+        android:summary="@string/notification_when_being_tracked"
+        android:title="@string/notification" />
+
     <Preference android:title="@string/donate" />
     <Preference android:title="@string/about" />
+    <Preference>
+    </Preference>
+
 </PreferenceScreen>

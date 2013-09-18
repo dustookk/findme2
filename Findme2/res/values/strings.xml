@@ -6,14 +6,25 @@
     <string name="exit">Exit</string>
     <string name="input_a_number_or_a_name">Input a number or a name</string>
     <string name="get_him">Get him!</string>
-    
+
     <!-- Settings -->
     <string name="setting">Settings</string>
-    <string name="trusts">Trusts</string>
+    <string name="tracking_history">Tracking history</string>
     <string name="history">History</string>
+    <string name="trusts">Trusts</string>
+    <string name="people_who_can_track_you">People who can track you</string>
+    <string name="result_mode">Result Mode</string>
+    <string name="the_way_to_show_result">The way to show result</string>
+    <string name="show_map_over_2G_3G">Show map over 2G/3G</string>
+    <string name="show_map_over_wifi">Show map over wifi</string>
+    <string name="show_map_manually">Show map manually</string>
+    <string name="notification">Notification</string>
+    <string name="notification_when_being_tracked">notification when being tracked</string>
     <string name="donate">Donate</string>
     <string name="about">About</string>
-    
+    <!-- Preference -->
+    <string name="key_the_way_to_show_result">key_the_way_to_show_result</string>
+    <string name="key_notification">key_notification</string>
     <!-- Phone Type -->
     <string name="type_main">Main</string>
     <string name="type_home">Home</string>
@@ -21,9 +32,9 @@
     <string name="type_other">Other</string>
     <string name="type_work">work</string>
     <string name="type_work_mobile">Work Mobile</string>
-    
+
     <!-- Toasts -->
     <string name="confirm_exit">Press again to exit</string>
     <string name="cannot_launch_the_contact_application">Cannot launch the contact application</string>
-    
+
 </resources>
