@@ -36,5 +36,6 @@
     <!-- Toasts -->
     <string name="confirm_exit">Press again to exit</string>
     <string name="cannot_launch_the_contact_application">Cannot launch the contact application</string>
+    <string name="no_phone_number_found">No phone number found</string>
 
 </resources>
