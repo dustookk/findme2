@@ -6,10 +6,12 @@ import android.content.Context;
 import android.provider.ContactsContract;
 
 public class NumberInfo {
+	private String name;
 	private String number;
 	private String type;
 
-	public NumberInfo(Context context, String numberStr, int itype) {
+	public NumberInfo(Context context,String name,String numberStr, int itype) {
+		setName(name);
 		setNumber(numberStr);
 		setType(context, itype);
 	}
@@ -21,6 +23,14 @@ public class NumberInfo {
 	public String getType() {
 		return type;
 	}
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 
 	public void setNumber(String numberStr) {
 		this.number = numberStr.replaceAll("/[^0-9]/", "");
