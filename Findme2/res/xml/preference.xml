@@ -10,13 +10,12 @@
     <ListPreference
         android:entries="@array/the_way_to_show_result"
         android:entryValues="@array/the_way_to_show_result_value"
-        android:key="the_way_to_show_result"
+        android:key="THE_WAY_TO_SHOW_RESULT"
         android:title="@string/result_mode" >
     </ListPreference>
 
     <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="notification"
+        android:key="NOTIFICATION"
         android:summary="@string/notification_when_being_tracked"
         android:title="@string/notification" />
 
