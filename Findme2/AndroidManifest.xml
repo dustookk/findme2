@@ -16,6 +16,8 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+        <!-- Activities -->
         <activity
             android:name="com.gyh.findme2.ui.MainActivity"
             android:label="@string/app_name"
@@ -31,6 +33,10 @@
             android:name="com.gyh.findme2.ui.SettingActivity"
             android:theme="@style/Theme.Sherlock.Light" >
         </activity>
+
+        <!-- Services -->
+        <service android:name="com.gyh.findme2.service.FindmeService" >
+        </service>
     </application>
 
 </manifest>
