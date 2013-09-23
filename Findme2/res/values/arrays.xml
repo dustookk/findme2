@@ -2,7 +2,7 @@
 <resources>
     <string-array name="the_way_to_show_result">
         <item>@string/show_map_over_wifi</item>
-        <item>@string/show_map_over_wifi</item>
+        <item>@string/show_map_over_2G_3G</item>
         <item>@string/show_map_manually</item>
     </string-array>
     <string-array name="the_way_to_show_result_value">
