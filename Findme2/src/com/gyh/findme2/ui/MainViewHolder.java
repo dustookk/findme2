@@ -1,9 +1,10 @@
 package com.gyh.findme2.ui;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,13 +16,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ListView;
 
 import com.gyh.findme2.R;
 import com.gyh.findme2.model.NumberInfo;
 import com.gyh.findme2.util.SysUtil;
 import com.gyh.findme2.util.ToastUtil;
 
-public class MainViewHolder implements OnClickListener,IViewHolder {
+public class MainViewHolder implements OnClickListener, IViewHolder {
 
 	private Activity mActivity;
 
@@ -32,8 +34,8 @@ public class MainViewHolder implements OnClickListener,IViewHolder {
 	public MainViewHolder(Activity activity) {
 		this.mActivity = activity;
 	}
-	
-    @Override
+
+	@Override
 	public View getView() {
 		LayoutInflater layoutInflater = (LayoutInflater) mActivity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -45,7 +47,7 @@ public class MainViewHolder implements OnClickListener,IViewHolder {
 				.findViewById(R.id.et_main_input);
 		inputView.setThreshold(1);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(mActivity,
-				R.layout.simple_dropdown_item_1line, COUNTRIES);
+				R.layout.recent_contact_item, COUNTRIES);
 		inputView.setAdapter(adapter);
 		return mianView;
 	}
@@ -80,7 +82,7 @@ public class MainViewHolder implements OnClickListener,IViewHolder {
 		}
 
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_OK
@@ -93,9 +95,9 @@ public class MainViewHolder implements OnClickListener,IViewHolder {
 					ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = "
 							+ contactId, null, null);
 			String phoneNumber;
-			String displayName;
+			String displayName = null;
 			int itype;
-			List<NumberInfo> numberList = new ArrayList<NumberInfo>();
+			Set<NumberInfo> numberSet = new HashSet<NumberInfo>();
 			while (cursor.moveToNext()) {
 				displayName = cursor
 						.getString(cursor
@@ -114,12 +116,25 @@ public class MainViewHolder implements OnClickListener,IViewHolder {
 						|| itype == ContactsContract.CommonDataKinds.Phone.TYPE_WORK
 						|| itype == ContactsContract.CommonDataKinds.Phone.TYPE_WORK_MOBILE;
 				if (isMobile) {
-					NumberInfo numberInfo = new NumberInfo(mActivity,
+					NumberInfo numberInfo = new NumberInfo(mActivity,displayName,
 							phoneNumber, itype);
-					numberList.add(numberInfo);
+					numberSet.add(numberInfo);
 				}
 			}
 			cursor.close();
+
+			if (numberSet.size() != 0) {
+				Dialog dialog = new Dialog(mActivity);
+				dialog.setContentView(R.layout.dialog_pick_number);
+				if(displayName !=null) {
+					dialog.setTitle(displayName);
+				}
+				
+			} else {
+				ToastUtil.makeShortToast(mActivity,
+						R.string.no_phone_number_found);
+			}
+
 		}
 	}
 
@@ -141,6 +156,6 @@ public class MainViewHolder implements OnClickListener,IViewHolder {
 	@Override
 	public void onActivityPause() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

@@ -1,6 +1,7 @@
 package com.gyh.findme2.ui;
 
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
 
@@ -10,12 +11,17 @@ import com.gyh.findme2.R;
 
 @SuppressWarnings("deprecation")
 public class SettingActivity extends SherlockPreferenceActivity {
+	private static final String KEY_RESULT_MODE = "the_way_to_show_result";
+	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getSupportActionBar().setTitle(R.string.setting);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		addPreferencesFromResource(R.xml.preference);
+		ListPreference findPreference = (ListPreference) findPreference(KEY_RESULT_MODE);
 	}
 
 	@Override
@@ -23,9 +29,8 @@ public class SettingActivity extends SherlockPreferenceActivity {
 			Preference preference) {
 		String title = preference.getTitle().toString();
 		if (getString(R.string.trusts).equals(title)) {
-			
 		} else if (getString(R.string.history).equals(title)) {
-
+			
 		} else if (getString(R.string.donate).equals(title)) {
 
 		} else if (getString(R.string.about).equals(title)) {
@@ -33,7 +38,7 @@ public class SettingActivity extends SherlockPreferenceActivity {
 		}
 		return true;
 	}
-	
+
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
