@@ -18,11 +18,10 @@ import android.widget.AutoCompleteTextView;
 
 import com.gyh.findme2.R;
 import com.gyh.findme2.model.NumberInfo;
-import com.gyh.findme2.util.LogUtil;
 import com.gyh.findme2.util.SysUtil;
 import com.gyh.findme2.util.ToastUtil;
 
-public class MainViewHolder implements OnClickListener {
+public class MainViewHolder implements OnClickListener,IViewHolder {
 
 	private Activity mActivity;
 
@@ -33,7 +32,8 @@ public class MainViewHolder implements OnClickListener {
 	public MainViewHolder(Activity activity) {
 		this.mActivity = activity;
 	}
-
+	
+    @Override
 	public View getView() {
 		LayoutInflater layoutInflater = (LayoutInflater) mActivity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -80,7 +80,8 @@ public class MainViewHolder implements OnClickListener {
 		}
 
 	}
-
+	
+	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_OK
 				&& requestCode == CONTACT_PICKER_REQUEST) {
@@ -120,5 +121,26 @@ public class MainViewHolder implements OnClickListener {
 			}
 			cursor.close();
 		}
+	}
+
+	@Override
+	public void onActivityStart() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onActivityStop() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onActivityResume() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onActivityPause() {
+		// TODO Auto-generated method stub
+		
 	}
 }

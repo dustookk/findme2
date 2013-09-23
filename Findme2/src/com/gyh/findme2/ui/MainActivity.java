@@ -12,23 +12,39 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.gyh.findme2.R;
+import com.gyh.findme2.persist.DataPref;
 import com.gyh.findme2.util.ToastUtil;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenListener;
 
 public class MainActivity extends SherlockActivity {
 	
-	private MainViewHolder mMainViewHolder;
+	private IViewHolder mMainViewHolder;
+	private IViewHolder slidingViewHolder;
 	private SlidingMenu slidingMenu;
+	private Handler mHandler;
 	private boolean confirmExit = true;
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mMainViewHolder = new MainViewHolder(this);
+		mHandler = new Handler();
 		setContentView(mMainViewHolder.getView());
 		setupSlidingMenu(this);
 		getSupportActionBar().setTitle(null);
+		setUpTheFirstTime();
+	}
+
+	private void setUpTheFirstTime() {
+		DataPref mDataPref = DataPref.getInstance(this);
+		if(mDataPref.isFirstTime()) {
+			//TODO show a dialog
+			mDataPref.setNotification(true);
+			mDataPref.setResultMode("3");
+			mDataPref.setFirstTime(false);
+		}
 	}
 
 	@Override
@@ -44,7 +60,14 @@ public class MainActivity extends SherlockActivity {
 		slidingMenu.toggle();
 		return true;
 	}
-
+	
+	@Override
+	protected void onStart() {
+		mMainViewHolder.onActivityStart();
+		slidingViewHolder.onActivityStart();
+		super.onStart();
+	}
+	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_MENU) {
@@ -60,7 +83,7 @@ public class MainActivity extends SherlockActivity {
 			if (confirmExit) {
 				ToastUtil.makeShortToast(this, R.string.confirm_exit);
 				confirmExit = false;
-				new Handler().postDelayed(new Runnable() {
+				mHandler.postDelayed(new Runnable() {
 					@Override
 					public void run() {
 						confirmExit = true;
@@ -77,12 +100,13 @@ public class MainActivity extends SherlockActivity {
 
 	private void setupSlidingMenu(Activity mActivity) {
 		slidingMenu = new SlidingMenu(mActivity);
+		slidingViewHolder = new SlidingViewHolder(mActivity);
 		slidingMenu.setMode(SlidingMenu.RIGHT);
 		slidingMenu.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
 		slidingMenu.setShadowDrawable(R.drawable.shadow);
 		slidingMenu.setBehindWidthRes(R.dimen.slidingmenu_offset);
 		slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-		slidingMenu.setMenu(new SlidingViewHolder(mActivity).getView());
+		slidingMenu.setMenu(slidingViewHolder.getView());
 		slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 		slidingMenu.setSecondaryOnOpenListner(new OnOpenListener() {
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
