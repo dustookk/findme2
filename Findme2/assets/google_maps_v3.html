@@ -8,7 +8,7 @@
       #map-canvas { height: 100% }
     </style>
     <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?sensor=true">
+      src="http://maps.googleapis.com/maps/api/js?sensor=true">
     </script>
     <script type="text/javascript">
       function initialize() {
@@ -22,6 +22,8 @@
         var mapOptions = {
           center: point,
           zoom: 12,
+          streetViewControl:false,
+          
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         var map = new google.maps.Map(document.getElementById("map-canvas"),
