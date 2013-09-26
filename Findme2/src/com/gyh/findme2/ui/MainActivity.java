@@ -1,6 +1,8 @@
 package com.gyh.findme2.ui;
 
-import android.app.Activity;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,26 +15,27 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.gyh.findme2.R;
 import com.gyh.findme2.persist.DataPref;
-import com.gyh.findme2.util.ToastUtil;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu.OnOpenListener;
 
 public class MainActivity extends SherlockActivity {
 	
-	private IViewHolder mMainViewHolder;
-	private IViewHolder slidingViewHolder;
+	private ViewHolder mMainViewHolder;
+	private ViewHolder slidingViewHolder;
 	private SlidingMenu slidingMenu;
 	private Handler mHandler;
+	private List<ViewHolder> viewHolderList;
 	private boolean confirmExit = true;
 	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mMainViewHolder = new MainViewHolder(this);
+		viewHolderList = new ArrayList<ViewHolder>(2);
 		mHandler = new Handler();
+		mMainViewHolder = new MainViewHolder(this);
 		setContentView(mMainViewHolder.getView());
-		setupSlidingMenu(this);
+		setupSlidingMenu();
 		getSupportActionBar().setTitle(null);
 		setUpTheFirstTime();
 	}
@@ -61,12 +64,6 @@ public class MainActivity extends SherlockActivity {
 		return true;
 	}
 	
-	@Override
-	protected void onStart() {
-		mMainViewHolder.onActivityStart();
-		slidingViewHolder.onActivityStart();
-		super.onStart();
-	}
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -81,7 +78,7 @@ public class MainActivity extends SherlockActivity {
 			}
 			// confirm to exit
 			if (confirmExit) {
-				ToastUtil.makeShortToast(this, R.string.confirm_exit);
+				mMainViewHolder.makeShortToast(this, R.string.confirm_exit);
 				confirmExit = false;
 				mHandler.postDelayed(new Runnable() {
 					@Override
@@ -98,9 +95,9 @@ public class MainActivity extends SherlockActivity {
 		}
 	}
 
-	private void setupSlidingMenu(Activity mActivity) {
-		slidingMenu = new SlidingMenu(mActivity);
-		slidingViewHolder = new SlidingViewHolder(mActivity);
+	private void setupSlidingMenu() {
+		slidingMenu = new SlidingMenu(this);
+		slidingViewHolder = new SlidingViewHolder(this);
 		slidingMenu.setMode(SlidingMenu.RIGHT);
 		slidingMenu.setShadowWidthRes(R.dimen.slidingmenu_shadow_width);
 		slidingMenu.setShadowDrawable(R.drawable.shadow);
@@ -118,9 +115,44 @@ public class MainActivity extends SherlockActivity {
 		});
 	}
 	
+	
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		mMainViewHolder.onActivityResult(requestCode, resultCode, data);
+	protected void onStart() {
+		for (ViewHolder mViewHolder : viewHolderList) {
+			mViewHolder.onActivityStart();
+		}
+		super.onStart();
+	}
+	@Override
+	protected void onResume() {
+		for (ViewHolder mViewHolder : viewHolderList) {
+			mViewHolder.onActivityResume();
+		}
+		super.onResume();
 	}
 	
+	@Override
+	protected void onPause() {
+		for (ViewHolder mViewHolder : viewHolderList) {
+			mViewHolder.onActivityPause();
+		}
+		super.onPause();
+	}
+	@Override
+	protected void onStop() {
+		for (ViewHolder mViewHolder : viewHolderList) {
+			mViewHolder.onActivityStop();
+		}
+		super.onStop();
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		for (ViewHolder mViewHolder : viewHolderList) {
+			mViewHolder.onActivityResult(requestCode, resultCode, data);
+		}
+	}
+	
+	public void addHolder(ViewHolder mViewHolder) {
+		viewHolderList.add(mViewHolder);
+	}
 }

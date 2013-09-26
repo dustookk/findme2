@@ -9,6 +9,7 @@
     <color name="setting_text">#ff808080</color>
     <color name="actionbar">#ffdddddd</color>
     <color name="dim_foreground_holo_light">#323232</color>
+    <color name="loading_text">#ff808080</color>
     
 
 </resources>

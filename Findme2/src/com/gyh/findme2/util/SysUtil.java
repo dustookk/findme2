@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.location.LocationManager;
 
 public class SysUtil {
 
@@ -25,4 +26,12 @@ public class SysUtil {
 				PackageManager.MATCH_DEFAULT_ONLY);
 		return list.size() > 0;
 	}
+	
+	public static boolean isLocationEnabled(Context context) {
+		LocationManager mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		return isGPSEnabled && isNetworkEnabled; 
+	}
+	
 }

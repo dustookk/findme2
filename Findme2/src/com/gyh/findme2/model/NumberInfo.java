@@ -59,4 +59,8 @@ public class NumberInfo {
 		}
 
 	}
+	@Override
+	public String toString() {
+		return this.number + " " + this.type;
+	}
 }

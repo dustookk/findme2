@@ -1,7 +1,7 @@
 package com.gyh.findme2.ui;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -13,7 +13,8 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
@@ -21,45 +22,45 @@ import android.widget.ListView;
 import com.gyh.findme2.R;
 import com.gyh.findme2.model.NumberInfo;
 import com.gyh.findme2.util.SysUtil;
-import com.gyh.findme2.util.ToastUtil;
 
-public class MainViewHolder implements OnClickListener, IViewHolder {
-
-	private Activity mActivity;
+public class MainViewHolder extends ViewHolder {
 
 	private static final int CONTACT_PICKER_REQUEST = 0;
 	private static final String[] COUNTRIES = new String[] { "18623123421",
 			"15923328165" };
 
-	public MainViewHolder(Activity activity) {
-		this.mActivity = activity;
+	private AutoCompleteTextView inputView;
+
+	public MainViewHolder(MainActivity mMainActivity) {
+		super(mMainActivity);
 	}
 
 	@Override
 	public View getView() {
-		LayoutInflater layoutInflater = (LayoutInflater) mActivity
+		LayoutInflater layoutInflater = (LayoutInflater) getActivity()
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View mianView = layoutInflater.inflate(R.layout.layout_activity_main,
 				null);
 		mianView.findViewById(R.id.iv_add_contact).setOnClickListener(this);
 		mianView.findViewById(R.id.btn_get_him).setOnClickListener(this);
-		AutoCompleteTextView inputView = (AutoCompleteTextView) mianView
+		inputView = (AutoCompleteTextView) mianView
 				.findViewById(R.id.et_main_input);
 		inputView.setThreshold(1);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(mActivity,
-				R.layout.recent_contact_item, COUNTRIES);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+				R.layout.textview_list_item, COUNTRIES);
 		inputView.setAdapter(adapter);
 		return mianView;
 	}
 
 	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
+	public void performClick(int ViewId) {
+		switch (ViewId) {
 		case R.id.iv_add_contact:
 			pickContact();
 			break;
 		case R.id.btn_get_him:
-
+			Intent intent = new Intent(getActivity(), MapActivity.class);
+			getActivity().startActivity(intent);
 			break;
 		default:
 			break;
@@ -72,12 +73,12 @@ public class MainViewHolder implements OnClickListener, IViewHolder {
 	private void pickContact() {
 		Intent contactPickerIntent = new Intent(Intent.ACTION_PICK,
 				Contacts.CONTENT_URI);
-		if (SysUtil.isIntentAvailable(mActivity, contactPickerIntent)) {
-			mActivity.startActivityForResult(contactPickerIntent,
+		if (SysUtil.isIntentAvailable(getActivity(), contactPickerIntent)) {
+			getActivity().startActivityForResult(contactPickerIntent,
 					CONTACT_PICKER_REQUEST);
 		} else {
 			// intent not available
-			ToastUtil.makeLongToast(mActivity,
+			makeLongToast(getActivity(),
 					R.string.cannot_launch_the_contact_application);
 		}
 
@@ -89,7 +90,7 @@ public class MainViewHolder implements OnClickListener, IViewHolder {
 				&& requestCode == CONTACT_PICKER_REQUEST) {
 			Uri resultUrl = data.getData();
 			String contactId = resultUrl.getLastPathSegment();
-			Cursor cursor = mActivity.getContentResolver().query(
+			Cursor cursor = getActivity().getContentResolver().query(
 					ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
 					null,
 					ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = "
@@ -97,7 +98,7 @@ public class MainViewHolder implements OnClickListener, IViewHolder {
 			String phoneNumber;
 			String displayName = null;
 			int itype;
-			Set<NumberInfo> numberSet = new HashSet<NumberInfo>();
+			final List<NumberInfo> numberList = new ArrayList<NumberInfo>();
 			while (cursor.moveToNext()) {
 				displayName = cursor
 						.getString(cursor
@@ -116,46 +117,44 @@ public class MainViewHolder implements OnClickListener, IViewHolder {
 						|| itype == ContactsContract.CommonDataKinds.Phone.TYPE_WORK
 						|| itype == ContactsContract.CommonDataKinds.Phone.TYPE_WORK_MOBILE;
 				if (isMobile) {
-					NumberInfo numberInfo = new NumberInfo(mActivity,displayName,
-							phoneNumber, itype);
-					numberSet.add(numberInfo);
+					NumberInfo numberInfo = new NumberInfo(getActivity(),
+							displayName, phoneNumber, itype);
+					numberList.add(numberInfo);
 				}
 			}
 			cursor.close();
 
-			if (numberSet.size() != 0) {
-				Dialog dialog = new Dialog(mActivity);
-				dialog.setContentView(R.layout.dialog_pick_number);
-				if(displayName !=null) {
-					dialog.setTitle(displayName);
-				}
-				
+			if (numberList.size() != 0) {
+				createNumberDialog(displayName, numberList);
 			} else {
-				ToastUtil.makeShortToast(mActivity,
+				makeShortToast(getActivity(),
 						R.string.no_phone_number_found);
 			}
 
 		}
 	}
 
-	@Override
-	public void onActivityStart() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onActivityStop() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onActivityResume() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onActivityPause() {
-		// TODO Auto-generated method stub
-
+	private void createNumberDialog(String displayName,
+			final List<NumberInfo> numberList) {
+		final Dialog numberDialog = new Dialog(getActivity());
+		ListView numberListView = new ListView(getActivity());
+		numberListView.setAdapter(new ArrayAdapter<NumberInfo>(getActivity(),
+				android.R.layout.simple_dropdown_item_1line, numberList));
+		numberListView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				String text = numberList.get(position).getNumber();
+				inputView.setText(text);
+				inputView.setSelection(text.length());
+				numberDialog.dismiss();
+				inputView.requestFocus();
+			}
+		});
+		numberDialog.setContentView(numberListView);
+		if (displayName != null) {
+			numberDialog.setTitle(displayName);
+		}
+		numberDialog.show();
 	}
 }

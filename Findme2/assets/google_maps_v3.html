@@ -11,6 +11,12 @@
       src="http://maps.googleapis.com/maps/api/js?sensor=true">
     </script>
     <script type="text/javascript">
+       function loaded(){
+        if (window.android){
+          window.android.onLoad();
+        };
+      }
+    
       function initialize() {
         var latitude = -34.397;
         var longitude = 150.644;
@@ -29,14 +35,15 @@
         var map = new google.maps.Map(document.getElementById("map-canvas"),
             mapOptions);
         var marker = new google.maps.Marker({
-        position: point,
-        map: map,
-        title: 'Hello World!'
-  });
-
-        
+            position: point,
+            map: map,
+            title: 'Hello World!'
+        });
+        google.maps.event.addListenerOnce(map, 'idle', loaded);
       }
+    
       google.maps.event.addDomListener(window, 'load', initialize);
+      
     </script>
   </head>
   <body>
