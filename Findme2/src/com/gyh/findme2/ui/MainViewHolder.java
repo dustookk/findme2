@@ -60,6 +60,8 @@ public class MainViewHolder extends ViewHolder {
 			break;
 		case R.id.btn_get_him:
 			Intent intent = new Intent(getActivity(), MapActivity.class);
+			intent.putExtra("latitude", 39.909);
+			intent.putExtra("longitude", 116.397);
 			getActivity().startActivity(intent);
 			break;
 		default:
