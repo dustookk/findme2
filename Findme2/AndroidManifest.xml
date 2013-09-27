@@ -39,6 +39,8 @@
         <!-- Services -->
         <service android:name="com.gyh.findme2.service.FindmeService" >
         </service>
+        <service android:name="com.gyh.findme2.service.SendLocationService" >
+        </service>
     </application>
 
 </manifest>
