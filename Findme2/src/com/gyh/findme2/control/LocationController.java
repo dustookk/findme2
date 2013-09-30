@@ -15,7 +15,8 @@ public class LocationController {
 
 	private static final int MIN_TIME = 0;
 	private static final int MIN_DISTANCE = 0;
-	private static final int DURATION= 1000 * 60 * 1;
+	private static final int DURATION = 1000 * 60 * 5;
+	private static final long TWO_MINUTES = 1000 * 60 * 2;
 	private static final float ACCURACY = 50;
 
 	private MyLocationListener gpsLocationListener;
@@ -46,25 +47,76 @@ public class LocationController {
 		}, DURATION);
 	}
 
-	protected void chooseBetterLocation(Location location) {
-		if (mLocation == null) {
-			mLocation = location;
-		} else {
-			int accuracyDelta = (int) (location.getAccuracy() - mLocation
-					.getAccuracy());
-			boolean isMoreAccurate = accuracyDelta < 0;
-			if (isMoreAccurate) {
-				mLocation = location;
-			}
+	protected Location chooseBetterLocation(Location currentBestLocation,
+			Location location) {
+
+		if (!location.hasAccuracy()) {
+			return currentBestLocation;
 		}
-		LogUtil.d("Accuracy:" + mLocation.getAccuracy());
-		if (mLocation.hasAccuracy() && mLocation.getAccuracy() < ACCURACY) {
-			onFinish();
+
+		if (currentBestLocation == null) {
+			return location;
+		}
+
+		// Check whether the new location fix is newer or older
+		long timeDelta = location.getTime() - currentBestLocation.getTime();
+		boolean isNewer = timeDelta > 0;
+		boolean isSignificantlyNewer = timeDelta > TWO_MINUTES;
+		boolean isSignificantlyOlder = timeDelta < -TWO_MINUTES;
+
+		if (isSignificantlyNewer) {
+			return location;
+		}
+
+		if (isSignificantlyOlder) {
+			return currentBestLocation;
+		}
+
+		// Check whether the new location fix is more or less accurate
+		int accuracyDelta = (int) (location.getAccuracy() - currentBestLocation
+				.getAccuracy());
+		boolean isLessAccurate = accuracyDelta > 0;
+		boolean isMoreAccurate = accuracyDelta < 0;
+		boolean isSignificantlyLessAccurate = accuracyDelta > 200;
+
+		boolean isFromSameProvider = isSameProvider(currentBestLocation,
+				location);
+
+		if (isMoreAccurate) {
+			return location;
+		} else if (isNewer && !isLessAccurate) {
+			return location;
+		} else if (isNewer && !isSignificantlyLessAccurate
+				&& isFromSameProvider) {
+			return location;
+		}
+
+		return currentBestLocation;
+	}
+
+	private boolean isSameProvider(Location loc1, Location loc2) {
+		if (loc1 == null) {
+			return loc2 == null;
+		}
+		String loc1Provider = loc1.getProvider();
+		String loc2Provider = loc2.getProvider();
+		if (loc1Provider == null) {
+			return loc2Provider == null;
+		}
+
+		return loc1Provider.equals(loc2Provider);
+	}
+
+	protected void checkIfReady(Location lcoation) {
+		if (lcoation != null && lcoation.hasAccuracy()) {
+			float accuracy = lcoation.getAccuracy();
+			if (accuracy < ACCURACY) {
+				onFinish();
+			}
 		}
 	}
 
 	private void onFinish() {
-		LogUtil.d("onfinish");
 		mLocationManager.removeUpdates(gpsLocationListener);
 		mLocationManager.removeUpdates(networkLocationListener);
 		if (mOnLocationResultListener != null) {
@@ -80,8 +132,8 @@ public class LocationController {
 	protected class MyLocationListener implements LocationListener {
 		@Override
 		public void onLocationChanged(Location location) {
-			chooseBetterLocation(location);
-			LogUtil.d("onLocationChanged " + location.getAccuracy());
+			mLocation = chooseBetterLocation(mLocation, location);
+			checkIfReady(mLocation);
 		}
 
 		@Override
