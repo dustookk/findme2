@@ -21,6 +21,7 @@ import android.widget.ListView;
 
 import com.gyh.findme2.R;
 import com.gyh.findme2.model.NumberInfo;
+import com.gyh.findme2.service.SendLocationService;
 import com.gyh.findme2.util.SysUtil;
 
 public class MainViewHolder extends ViewHolder {
@@ -59,10 +60,8 @@ public class MainViewHolder extends ViewHolder {
 			pickContact();
 			break;
 		case R.id.btn_get_him:
-			Intent intent = new Intent(getActivity(), MapActivity.class);
-			intent.putExtra("latitude", 39.909);
-			intent.putExtra("longitude", 116.397);
-			getActivity().startActivity(intent);
+			Intent intent = new Intent(getActivity(), SendLocationService.class);
+			getActivity().startService(intent);
 			break;
 		default:
 			break;
