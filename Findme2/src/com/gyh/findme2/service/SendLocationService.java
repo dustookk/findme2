@@ -24,10 +24,10 @@ public class SendLocationService extends Service {
 					intent.putExtra("latitude", location.getLatitude());
 					intent.putExtra("longitude", location.getLongitude());
 					startActivity(intent);
-					stopSelf();
 				}else {
 					LogUtil.e("location in SendLocationService is null");
 				}
+				stopSelf();
 			}
 		});
 		mLocationController.requstLocation();
