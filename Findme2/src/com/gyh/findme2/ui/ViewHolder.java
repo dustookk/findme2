@@ -23,7 +23,7 @@ public abstract class ViewHolder implements OnClickListener {
 	
 	@Override
 	public void onClick(View v) {
-		performClick(v.getId());
+		performClick(v);
 	}
 	protected Activity getActivity() {
 		return mActivity;
@@ -109,5 +109,5 @@ public abstract class ViewHolder implements OnClickListener {
 	}
 	
 	public abstract View getView();
-	public abstract void performClick(int viewId);
+	public abstract void performClick(View view);
 }

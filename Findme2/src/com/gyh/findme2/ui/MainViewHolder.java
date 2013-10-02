@@ -54,14 +54,22 @@ public class MainViewHolder extends ViewHolder {
 	}
 
 	@Override
-	public void performClick(int ViewId) {
-		switch (ViewId) {
+	public void performClick(final View view) {
+		switch (view.getId()) {
 		case R.id.iv_add_contact:
 			pickContact();
 			break;
 		case R.id.btn_get_him:
 			Intent intent = new Intent(getActivity(), SendLocationService.class);
 			getActivity().startService(intent);
+			makeLongToast(getActivity(), "please keep your eyes on the notification bar");
+			view.setVisibility(View.INVISIBLE);
+			postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					view.setVisibility(View.VISIBLE);
+				}
+			}, 3000);
 			break;
 		default:
 			break;

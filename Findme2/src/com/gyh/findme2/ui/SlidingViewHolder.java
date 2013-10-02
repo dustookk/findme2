@@ -38,8 +38,8 @@ public class SlidingViewHolder extends ViewHolder {
 	}
 
 	@Override
-	public void performClick(int viewId){
-		switch (viewId) {
+	public void performClick(View view){
+		switch (view.getId()) {
 		case R.id.rl_switch:
 			switchServiceState();
 			break;
